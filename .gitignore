@@ -21,3 +21,4 @@ extract_*.js
 *.swp
 .idea/
 .vscode/
+*_deploy.json

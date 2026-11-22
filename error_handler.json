@@ -16,7 +16,7 @@
     {
       "parameters": {
         "chatId": "REPLACE_WITH_ADMIN_CHAT_ID",
-        "text": "=🚨 PsyhoTestBot: збій workflow\nWorkflow: {{ $json.workflow?.name ?? 'n/a' }}\nВузол: {{ $json.execution?.lastNodeExecuted ?? 'n/a' }}\nЗапуск: {{ $json.execution?.id ?? 'n/a' }}\nПомилка: {{ String($json.execution?.error?.message ?? 'n/a').slice(0, 300) }}",
+        "text": "=🚨 PsyhoTestBot: збій workflow\nWorkflow: {{ String($json.workflow?.name ?? 'n/a').replace(/[_*\\u0060\\[\\]]/g, ' ') }}\nВузол: {{ String($json.execution?.lastNodeExecuted ?? 'n/a').replace(/[_*\\u0060\\[\\]]/g, ' ') }}\nЗапуск: {{ $json.execution?.id ?? 'n/a' }}\nПомилка: {{ String($json.execution?.error?.message ?? 'n/a').replace(/[_*\\u0060\\[\\]]/g, ' ').slice(0, 300) }}",
         "additionalFields": {
           "appendAttribution": false
         }
@@ -80,11 +80,11 @@
     "binaryMode": "separate"
   },
   "nodeGroups": [],
-  "versionCounter": 3,
+  "versionCounter": 5,
   "sourceWorkflowId": null,
   "versionMetadata": {
-    "name": "Error Handler",
-    "description": null
+    "name": "Version a94fa373",
+    "description": ""
   },
   "active": false
 }

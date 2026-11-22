@@ -454,7 +454,7 @@
     {
       "parameters": {
         "chatId": "REPLACE_WITH_ADMIN_CHAT_ID",
-        "text": "=🚨 PsyhoTestBot: помилка скорингу або збереження\nТест: {{ $('Validate Input1').first().json.body.test_type }}\nСесія: {{ String($('Validate Input1').first().json.body.session_token ?? '').slice(0, 8) }}…\nЗапуск n8n: {{ $execution.id }}\nПомилка: {{ String($('DB: Log Error1').first().json.error_message ?? 'Unknown error').slice(0, 300) }}\nПацієнт отримав помилку 500, сесію звільнено (можна пройти знову).",
+        "text": "=🚨 PsyhoTestBot: помилка скорингу або збереження\nТест: {{ String($('Validate Input1').first().json.body.test_type ?? '').replace(/[_*\\u0060\\[\\]]/g, ' ') }}\nСесія: {{ String($('Validate Input1').first().json.body.session_token ?? '').slice(0, 8).replace(/[_*\\u0060\\[\\]]/g, ' ') }}…\nЗапуск n8n: {{ $execution.id }}\nПомилка: {{ String($('DB: Log Error1').first().json.error_message ?? 'Unknown error').replace(/[_*\\u0060\\[\\]]/g, ' ').slice(0, 300) }}\nПацієнт отримав помилку 500, сесію звільнено (можна пройти знову).",
         "additionalFields": {
           "appendAttribution": false
         }
@@ -474,7 +474,7 @@
     {
       "parameters": {
         "chatId": "REPLACE_WITH_ADMIN_CHAT_ID",
-        "text": "=🚨 PsyhoTestBot: лікар НЕ отримав сповіщення\nТест: {{ $('JS: Scoring1').first().json.test_type }}\nСесія: {{ String($('Validate Input1').first().json.body.session_token ?? '').slice(0, 8) }}…\nЗапуск n8n: {{ $execution.id }}\n{{ $('JS: Scoring1').first().json.item9_positive ? '⚠️ Є позитивний п. 9 (PHQ-9): потрібен ручний контакт з лікарем' : '' }}\n{{ $('JS: Scoring1').first().json.crisis_level ? 'C-SSRS crisis_level: ' + $('JS: Scoring1').first().json.crisis_level : '' }}\nПомилка: {{ String($('DB: Log Notify Error').first().json.error_message ?? 'Unknown error').slice(0, 300) }}\nРезультат збережено в БД; автоматичної повторної відправки лікарю немає.",
+        "text": "=🚨 PsyhoTestBot: лікар НЕ отримав сповіщення\nТест: {{ String($('JS: Scoring1').first().json.test_type ?? '').replace(/[_*\\u0060\\[\\]]/g, ' ') }}\nСесія: {{ String($('Validate Input1').first().json.body.session_token ?? '').slice(0, 8).replace(/[_*\\u0060\\[\\]]/g, ' ') }}…\nЗапуск n8n: {{ $execution.id }}\n{{ $('JS: Scoring1').first().json.item9_positive ? '⚠️ Є позитивний п. 9 (PHQ-9): потрібен ручний контакт з лікарем' : '' }}\n{{ $('JS: Scoring1').first().json.crisis_level ? 'C-SSRS рівень ризику: ' + String($('JS: Scoring1').first().json.crisis_level).replace(/[_*\\u0060\\[\\]]/g, ' ') : '' }}\nПомилка: {{ String($('DB: Log Notify Error').first().json.error_message ?? 'Unknown error').replace(/[_*\\u0060\\[\\]]/g, ' ').slice(0, 300) }}\nРезультат збережено в БД; автоматичної повторної відправки лікарю немає.",
         "additionalFields": {
           "appendAttribution": false
         }
@@ -714,11 +714,11 @@
     "availableInMCP": false
   },
   "nodeGroups": [],
-  "versionCounter": 5,
+  "versionCounter": 9,
   "sourceWorkflowId": null,
   "versionMetadata": {
-    "name": "Психодіагностика — Головний Workflow v17",
-    "description": null
+    "name": "Version 09eb0141",
+    "description": ""
   },
   "active": false
 }
