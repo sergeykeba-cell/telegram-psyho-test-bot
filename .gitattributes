@@ -1,0 +1,5 @@
+* text=auto eol=lf
+
+# Snapshots and exports: keep diffs readable, but exclude them from language statistics.
+snap/*.json linguist-generated=true
+questions.json linguist-generated=true
