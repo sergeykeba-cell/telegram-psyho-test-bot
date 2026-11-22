@@ -23,6 +23,10 @@ Rules that matter more than any single command:
 - Nginx proxies exactly two paths to n8n. The n8n editor is never exposed; you reach it through an SSH tunnel.
 - n8n reaches the bot on the Docker bridge gateway, and one UFW rule on that bridge allows it.
 
+> **Names.** Names used in this guide (containers `psyho-n8n-1` and `psyho-postgres-1`, the systemd unit
+> `psyhotestbot`) belong to the reference setup. On an existing server they may differ: check
+> `docker ps --format '{{.Names}}'` and `systemctl list-units '*psyho*'` and substitute your names.
+
 ## 0. Variables
 
 Run the steps of this guide in one shell session, or export these again when you reconnect. `DOMAIN` must already point at the server (an A/AAAA record).

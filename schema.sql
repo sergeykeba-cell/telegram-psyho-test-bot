@@ -25,6 +25,8 @@ CREATE TABLE IF NOT EXISTS public.tokens (
     test_type    TEXT NOT NULL,
     used         BOOLEAN DEFAULT FALSE,
     created_at   TIMESTAMPTZ DEFAULT NOW(),
+    -- Note: a database created before this schema was written has tokens.doctor_id INTEGER without the
+    -- foreign key below. The application works with both.
     doctor_id    BIGINT,
     test_version VARCHAR NOT NULL DEFAULT '1.0',
     status       VARCHAR NOT NULL DEFAULT 'pending',
@@ -52,6 +54,8 @@ CREATE TABLE IF NOT EXISTS public.results (
     score             INTEGER,
     severity          TEXT,
     answers           JSONB,
+    -- results.status: 'scored' (saved, the doctor has not been notified yet) -> 'notified' (delivered).
+    -- A scheduled n8n branch re-sends rows that stay 'scored' every 5 minutes, at most 12 attempts per row.
     status            VARCHAR NOT NULL DEFAULT 'notified',
     ai_interpretation TEXT,
     scoring_time_ms   INTEGER,
