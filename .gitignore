@@ -5,3 +5,19 @@ __pycache__/
 *.bak*
 patch_*.py
 content/
+
+# --- added by hardening step
+.env.*
+!.env.example
+.venv/
+*.log
+*.pdf
+*.dump
+fix_*.py
+clean_*.py
+export_*.py
+extract_*.js
+.DS_Store
+*.swp
+.idea/
+.vscode/
