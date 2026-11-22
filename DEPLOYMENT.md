@@ -55,7 +55,7 @@ sudo install -d -o psyhobot -g psyhobot -m 750 /opt/psyho-test-bot
 sudo -u psyhobot git clone https://github.com/sergeykeba-cell/telegram-psyho-test-bot.git /opt/psyho-test-bot
 
 sudo -u psyhobot python3 -m venv /opt/psyho-test-bot/venv
-sudo -u psyhobot /opt/psyho-test-bot/venv/bin/pip install aiogram==3.7.0 asyncpg python-dotenv aiohttp reportlab
+sudo -u psyhobot /opt/psyho-test-bot/venv/bin/pip install -r /opt/psyho-test-bot/requirements.txt
 ```
 
 `report.py` generates the PDF reports and needs a font with Cyrillic glyphs; check the top of `report.py` for the font it expects and install the matching system package if it is not bundled.
