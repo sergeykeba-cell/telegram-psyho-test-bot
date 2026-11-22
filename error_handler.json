@@ -1,0 +1,90 @@
+{
+  "name": "Error Handler",
+  "description": null,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "d3d969f1-a436-428b-bac2-16e5c0f767cc",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        608,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "REPLACE_WITH_ADMIN_CHAT_ID",
+        "text": "=🚨 PsyhoTestBot: збій workflow\nWorkflow: {{ $json.workflow?.name ?? 'n/a' }}\nВузол: {{ $json.execution?.lastNodeExecuted ?? 'n/a' }}\nЗапуск: {{ $json.execution?.id ?? 'n/a' }}\nПомилка: {{ String($json.execution?.error?.message ?? 'n/a').slice(0, 300) }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "8b5cb535-f817-4612-bd25-7cf768b16ef1",
+      "name": "Alert admin (Telegram)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        832,
+        176
+      ],
+      "retryOnFail": false,
+      "webhookId": "a666f297-6fe9-4f28-93d7-7012ce3f01f2",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO error_logs (n8n_execution_id, workflow_name, node_name, error_message, error_stack, input_data)\nVALUES ($1, $2, $3, $4, $5, '{}'::jsonb)",
+        "options": {
+          "queryReplacement": "={{ [ String($('Error Trigger').first().json.execution?.id ?? ''), $('Error Trigger').first().json.workflow?.name ?? '', $('Error Trigger').first().json.execution?.lastNodeExecuted ?? '', String($('Error Trigger').first().json.execution?.error?.message ?? 'Unknown error'), String($('Error Trigger').first().json.execution?.error?.stack ?? '').slice(0, 2000) ] }}"
+        }
+      },
+      "id": "e1008002-8e8c-440b-9a98-a8dc18ace040",
+      "name": "Log error",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1056,
+        176
+      ]
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Alert admin (Telegram)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alert admin (Telegram)": {
+      "main": [
+        [
+          {
+            "node": "Log error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "nodeGroups": [],
+  "versionCounter": 3,
+  "sourceWorkflowId": null,
+  "versionMetadata": {
+    "name": "Error Handler",
+    "description": null
+  },
+  "active": false
+}
