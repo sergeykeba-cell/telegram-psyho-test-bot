@@ -845,6 +845,7 @@ function selectOption(idx) {
   state.answers[state.current] = optsFor(TESTS[state.sessionData.test_type], state.current).values[idx];
   applySkips();
   renderQuestion();
+  showCrisisIfNeeded();
   if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
 }
 
@@ -908,7 +909,7 @@ function showCrisisIfNeeded() {
   o.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#fff;color:#111;padding:24px;overflow:auto;font-size:16px;line-height:1.5;';
   var h = document.createElement('h2'); h.textContent = 'Ви не самі';
   var p = document.createElement('p');
-  p.textContent = 'Ви зазначили, що іноді виникають думки про смерть або про те, щоб завдати собі шкоди. Про це важливо поговорити з лікарем: він отримає ваші відповіді. Якщо вам зараз небезпечно або ви можете завдати собі шкоди, негайно зателефонуйте за номером 112 або попросіть людину поруч побути з вами.';
+  p.textContent = 'Ви зазначили, що іноді виникають думки про смерть або про те, щоб завдати собі шкоди. Про це важливо поговорити з лікарем: після завершення тесту він отримає ваші відповіді. Якщо вам зараз небезпечно або ви можете завдати собі шкоди, негайно зателефонуйте за номером 112 або попросіть людину поруч побути з вами.';
   var ul = document.createElement('ul');
   CRISIS_CONTACTS.forEach(function(c){
     var li = document.createElement('li');
@@ -945,6 +946,7 @@ function fillDoneSummary() {
     el.style.display = '';
   }
   if (btn && inTelegram()) btn.style.display = '';
+  crisisShown = false;
   showCrisisIfNeeded();
 }
 
