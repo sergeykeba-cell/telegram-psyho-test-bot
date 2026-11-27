@@ -1,0 +1,17 @@
+[Unit]
+Description=PsyhoTestBot self-check scoring API (stateless, no database)
+After=network.target
+
+[Service]
+User=<service-user>
+WorkingDirectory=/opt/psyho-test-bot
+ExecStart=/opt/psyho-test-bot/venv/bin/python /opt/psyho-test-bot/self_api.py
+Restart=always
+RestartSec=10
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

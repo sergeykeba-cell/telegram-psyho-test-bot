@@ -1,0 +1,17 @@
+# /etc/nginx/conf.d/psyho-self-limits.conf
+limit_req_zone $binary_remote_addr zone=psyho_self:10m rate=5r/s;
+
+# inside the server block of your domain:
+location = /self-api/score {
+    limit_except POST { deny all; }
+    limit_req zone=psyho_self burst=10 nodelay;
+    limit_req_status 429;
+    client_max_body_size 16k;
+    access_log off;
+    proxy_pass http://127.0.0.1:8083;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header Connection "";
+    proxy_read_timeout 10s;
+}
+# self.html and self_questions.json are served from the web root next to index.html

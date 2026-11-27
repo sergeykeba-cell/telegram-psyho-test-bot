@@ -1,0 +1,126 @@
+{
+  "_meta": {
+    "status": "DRAFT: thresholds copied from node 'JS: Scoring1' of Workflow_v19_deploy.json (22.11.2026). NOT verified against primary sources. Clinical review pending.",
+    "modes": {
+      "zones": "total mapped to a zone by upper bounds (max, inclusive)",
+      "cutoff_by_sex": "total compared with a cutoff that depends on sex (sex required)",
+      "composite": "several tests scored separately from slices of one answer list",
+      "score_with_caveat": "total only, no zone is shown"
+    },
+    "sex_values": ["M", "F"],
+    "open_questions": [
+      "PHQ-15: the system asks for sex, but Scoring1 does not use it. How the sex-specific item is handled is unknown.",
+      "PHQ-9 and GAD-7 optional functional item: not part of the sum. Whether the self page shows it is undecided."
+    ]
+  },
+  "tests": {
+    "phq9": {
+      "mode": "zones",
+      "items": 9,
+      "optional_extra_items": 1,
+      "allowed": [0, 1, 2, 3],
+      "max_total": 27,
+      "zones": [
+        {"max": 4, "key": "minimal"},
+        {"max": 9, "key": "mild"},
+        {"max": 14, "key": "moderate"},
+        {"max": 19, "key": "moderately_severe"},
+        {"max": 27, "key": "severe"}
+      ],
+      "crisis_item_index": 8,
+      "crisis_if_gt": 0
+    },
+    "gad7": {
+      "mode": "zones",
+      "items": 7,
+      "optional_extra_items": 1,
+      "allowed": [0, 1, 2, 3],
+      "max_total": 21,
+      "zones": [
+        {"max": 4, "key": "minimal"},
+        {"max": 9, "key": "mild"},
+        {"max": 14, "key": "moderate"},
+        {"max": 21, "key": "severe"}
+      ]
+    },
+    "isi": {
+      "mode": "zones",
+      "items": 7,
+      "optional_extra_items": 0,
+      "allowed": [0, 1, 2, 3, 4],
+      "max_total": 28,
+      "zones": [
+        {"max": 7, "key": "none"},
+        {"max": 14, "key": "subthreshold"},
+        {"max": 21, "key": "moderate"},
+        {"max": 28, "key": "severe"}
+      ]
+    },
+    "who5": {
+      "mode": "zones",
+      "items": 5,
+      "optional_extra_items": 0,
+      "allowed": [0, 1, 2, 3, 4, 5],
+      "multiplier": 4,
+      "max_total": 100,
+      "zones": [
+        {"max": 28, "key": "very_low"},
+        {"max": 50, "key": "low"},
+        {"max": 100, "key": "ok"}
+      ]
+    },
+    "audit_c": {
+      "mode": "cutoff_by_sex",
+      "items": 3,
+      "optional_extra_items": 0,
+      "allowed": [0, 1, 2, 3, 4],
+      "max_total": 12,
+      "requires_sex": true,
+      "cutoff_by_sex": {"M": 4, "F": 3}
+    },
+    "express": {
+      "mode": "composite",
+      "items": 26,
+      "allowed": [0, 1, 2, 3, 4],
+      "requires_sex": true,
+      "parts": [
+        {"test": "phq9", "start": 0, "end": 9, "allowed": [0, 1, 2, 3]},
+        {"test": "gad7", "start": 9, "end": 16, "allowed": [0, 1, 2, 3]},
+        {"test": "isi", "start": 16, "end": 23, "allowed": [0, 1, 2, 3, 4]},
+        {"test": "audit_c", "start": 23, "end": 26, "allowed": [0, 1, 2, 3, 4]}
+      ],
+      "crisis_item_index": 8,
+      "crisis_if_gt": 0
+    },
+    "pcl5": {
+      "mode": "score_with_caveat",
+      "items": 20,
+      "allowed": [0, 1, 2, 3, 4],
+      "max_total": 80,
+      "show_zone": false
+    },
+    "pss10": {
+      "mode": "score_with_caveat",
+      "items": 10,
+      "allowed": [0, 1, 2, 3, 4],
+      "max_total": 40,
+      "reverse_item_indices": [3, 4, 6, 7],
+      "show_zone": false
+    },
+    "phq15": {
+      "mode": "score_with_caveat",
+      "items": 15,
+      "allowed": [0, 1, 2],
+      "max_total": 30,
+      "show_zone": false
+    }
+  },
+  "excluded": {
+    "c_ssrs": "result without a clinician is harmful; only help contacts",
+    "minmult": "interpretation requires a specialist",
+    "schmishek": "interpretation requires a specialist",
+    "nsi": "no thresholds, narrow population",
+    "brief_cope": "profile without thresholds",
+    "audit": "out of v1 by user decision"
+  }
+}
